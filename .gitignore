@@ -1,0 +1,5 @@
+.idea
+
+pretrain_data/*
+instruct_data/*
+model_output/*
