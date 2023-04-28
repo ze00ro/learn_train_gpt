@@ -63,5 +63,5 @@ print(group_datasets)  # 这样可以看出来条数变少了
 print(tokenizer.decode(group_datasets["train"][1]["input_ids"]))  # 可以看出一条句子里有多个开始结束符号
 
 # 这种 save 方式，用的时候，用的时候直接 load_from_disk 就可以了
-tokenized_dataset["train"].save_to_disk(os.path.join(save_dataset_path, "train"))
-tokenized_dataset["test"].save_to_disk(os.path.join(save_dataset_path, "test"))
+group_datasets["train"].save_to_disk(os.path.join(save_dataset_path, "train"))
+group_datasets["test"].save_to_disk(os.path.join(save_dataset_path, "test"))

@@ -24,7 +24,7 @@ tokenizer = BertTokenizer.from_pretrained(model_id)
 model = GPT2LMHeadModel.from_pretrained(model_id)
 
 # Hugging Face repository id
-repository_id = f"{model_id.split('/')[1]}-sub"
+repository_id = f"{model_id.split('/')[-1]}-sub"
 
 # Define training args
 training_args = TrainingArguments(
@@ -33,7 +33,7 @@ training_args = TrainingArguments(
     do_eval=False,
     per_device_train_batch_size=8,
     per_device_eval_batch_size=8,
-    fp16=True,
+    # fp16=True,
     learning_rate=1e-4,
     num_train_epochs=5,
     # logging & evaluation strategies
@@ -50,6 +50,7 @@ training_args = TrainingArguments(
 # Create Trainer instance
 trainer = Trainer(
     model=model,
+    tokenizer=tokenizer,
     args=training_args,
     train_dataset=train_data,
     eval_dataset=test_data,
