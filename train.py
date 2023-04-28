@@ -32,9 +32,9 @@ training_args = TrainingArguments(
     output_dir="./model_output/" + repository_id,
     do_train=True,
     do_eval=False,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    # fp16=True,
+    per_device_train_batch_size=1,
+    per_device_eval_batch_size=1,
+    fp16=True,
     learning_rate=1e-4,
     num_train_epochs=5,
     # logging & evaluation strategies
