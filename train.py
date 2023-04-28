@@ -1,7 +1,7 @@
 import math
 
 from datasets import load_from_disk
-from transformers import GPT2LMHeadModel, BertTokenizer
+from transformers import AutoModelForCausalLM, BertTokenizer
 from transformers import Trainer, TrainingArguments
 from transformers import default_data_collator
 
@@ -22,7 +22,7 @@ print(f"Test pretrain_data size: {len(test_data)}")
 # datasets = load_dataset("text", data_files={"train": path_to_train.txt, "validation": path_to_validation.txt}
 
 tokenizer = BertTokenizer.from_pretrained(model_id)
-model = GPT2LMHeadModel.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(model_id)
 
 # Hugging Face repository id
 repository_id = f"{model_id.split('/')[-1]}-sub"
