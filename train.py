@@ -1,10 +1,14 @@
+import math
+
 from datasets import load_from_disk
 from transformers import GPT2LMHeadModel, BertTokenizer
 from transformers import Trainer, TrainingArguments
-import math
 
-# 实验配置
-model_id = "uer/gpt2-chinese-cluecorpussmall"
+from util.common import prepare_args
+
+model_args, = prepare_args()
+
+model_id = model_args.model_name_or_path
 save_dataset_path = "pretrain_data"
 
 train_data = load_from_disk(f"{save_dataset_path}/train")

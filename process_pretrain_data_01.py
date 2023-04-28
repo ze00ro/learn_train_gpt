@@ -5,7 +5,11 @@ from datasets import concatenate_datasets
 from datasets import load_dataset
 from transformers import BertTokenizer
 
-model_id = "uer/gpt2-chinese-cluecorpussmall"
+from util.common import prepare_args
+
+model_args, = prepare_args()
+
+model_id = model_args.model_name_or_path
 dataset_id = "liyucheng/chinese_metaphor_dataset"  # 比喻句生成
 save_dataset_path = "pretrain_data"
 
