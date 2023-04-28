@@ -3,6 +3,7 @@ import math
 from datasets import load_from_disk
 from transformers import GPT2LMHeadModel, BertTokenizer
 from transformers import Trainer, TrainingArguments
+from transformers import default_data_collator
 
 from util.common import prepare_args
 
@@ -54,12 +55,15 @@ trainer = Trainer(
     args=training_args,
     train_dataset=train_data,
     eval_dataset=test_data,
+    data_collator=default_data_collator,
     # compute_metrics=compute_metrics,
 )
 
-trainer.train()
-tokenizer.save_pretrained(repository_id)
-trainer.save_model()
+train_result = trainer.train()
+trainer.save_model()  # Saves the tokenizer too for easy upload
 
-eval_results = trainer.evaluate()
-print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+# metrics = train_result.metrics
+# print(metrics)
+
+# eval_results = trainer.evaluate()
+# print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")

@@ -49,7 +49,7 @@ def group_texts(examples):
         k: [t[i: i + max_model_length] for i in range(0, total_length, max_model_length)]
         for k, t in concatenated_examples.items()
     }
-    result["labels"] = result["input_ids"].copy()
+    # result["labels"] = result["input_ids"].copy()
     return result
 
 
