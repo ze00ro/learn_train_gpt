@@ -1,7 +1,7 @@
-from transformers import GPT2LMHeadModel, BertTokenizer
 from datasets import load_from_disk
-from transformers import DataCollatorForLanguageModeling
+from transformers import GPT2LMHeadModel, BertTokenizer
 from transformers import Trainer, TrainingArguments
+import math
 
 # 实验配置
 model_id = "uer/gpt2-chinese-cluecorpussmall"
@@ -9,20 +9,15 @@ save_dataset_path = "pretrain_data"
 
 train_data = load_from_disk(f"{save_dataset_path}/train")
 print(f"Train pretrain_data size: {len(train_data)}")
-# test_data = load_from_disk(f"{save_dataset_path}/test")
-# print(f"Test pretrain_data size: {len(test_data)}")
+test_data = load_from_disk(f"{save_dataset_path}/test")
+print(f"Test pretrain_data size: {len(test_data)}")
+
+
+# 也可以直接从文本来
+# datasets = load_dataset("text", data_files={"train": path_to_train.txt, "validation": path_to_validation.txt}
 
 tokenizer = BertTokenizer.from_pretrained(model_id)
 model = GPT2LMHeadModel.from_pretrained(model_id)
-
-# todo ? we want to ignore tokenizer pad token in the loss
-label_pad_token_id = -100
-# Data collator
-data_collator = DataCollatorForLanguageModeling(
-    tokenizer,
-    mlm=False,
-    pad_to_multiple_of=8
-)
 
 # Hugging Face repository id
 repository_id = f"{model_id.split('/')[1]}-sub"
@@ -34,7 +29,7 @@ training_args = TrainingArguments(
     do_eval=False,
     per_device_train_batch_size=8,
     per_device_eval_batch_size=8,
-    fp16=False,
+    fp16=True,
     learning_rate=1e-4,
     num_train_epochs=5,
     # logging & evaluation strategies
@@ -52,12 +47,14 @@ training_args = TrainingArguments(
 trainer = Trainer(
     model=model,
     args=training_args,
-    data_collator=data_collator,
     train_dataset=train_data,
-    # eval_dataset=test_data,
+    eval_dataset=test_data,
     # compute_metrics=compute_metrics,
 )
 
 trainer.train()
 tokenizer.save_pretrained(repository_id)
 trainer.save_model()
+
+eval_results = trainer.evaluate()
+print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
