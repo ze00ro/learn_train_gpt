@@ -29,11 +29,12 @@ repository_id = f"{model_id.split('/')[-1]}-sub"
 
 # Define training args
 training_args = TrainingArguments(
+    log_level="info",
     output_dir="./model_output/" + repository_id,
-    do_train=True,
-    do_eval=False,
-    per_device_train_batch_size=1,
-    per_device_eval_batch_size=1,
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
+    gradient_accumulation_steps=4,
+    gradient_checkpointing=True,
     fp16=True,
     learning_rate=1e-4,
     num_train_epochs=5,

@@ -64,4 +64,4 @@ print(tokenizer.decode(group_datasets["train"][1]["input_ids"]))  # 可以看出
 
 # 这种 save 方式，用的时候，用的时候直接 load_from_disk 就可以了
 group_datasets["train"].save_to_disk(os.path.join(save_dataset_path, "train"))
-group_datasets["test"].save_to_disk(os.path.join(save_dataset_path, "test"))
+group_datasets["test.py"].save_to_disk(os.path.join(save_dataset_path, "test.py"))

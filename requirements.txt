@@ -1,3 +1,6 @@
 transformers
 datasets
 pandas
+
+mdtex2html
+gradio

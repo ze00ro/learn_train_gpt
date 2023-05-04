@@ -22,7 +22,7 @@ print(f"Prompt length: {prompt_length}")
 max_sample_length = tokenizer.model_max_length - prompt_length
 print(f"Max input length: {max_sample_length}")
 
-tokenized_inputs = concatenate_datasets([dataset["train"], dataset["test"]]).map(
+tokenized_inputs = concatenate_datasets([dataset["train"], dataset["test.py"]]).map(
     lambda x: tokenizer(x["dialogue"], truncation=True), batched=True, remove_columns=["dialogue", "summary"])
 max_source_length = max([len(x) for x in tokenized_inputs["input_ids"]])
 max_source_length = min(max_source_length, max_sample_length)
@@ -43,7 +43,7 @@ print(f"Keys: {list(tokenized_dataset['train'].features)}")
 
 # save pretrain_data to disk
 tokenized_dataset["train"].save_to_disk(os.path.join(save_dataset_path, "train"))
-tokenized_dataset["test"].save_to_disk(os.path.join(save_dataset_path, "test"))
+tokenized_dataset["test.py"].save_to_disk(os.path.join(save_dataset_path, "test.py"))
 
 
 
