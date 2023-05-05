@@ -9,7 +9,7 @@ model_args, = prepare_args()
 model_id = model_args.model_name_or_path
 
 tokenizer = BertTokenizer.from_pretrained(model_id)
-model = GPT2LMHeadModel.from_pretrained(model_id, pad_token_id=tokenizer.eos_token_id).cuda()
+model = GPT2LMHeadModel.from_pretrained(model_id, pad_token_id=tokenizer.eos_token_id)
 
 
 def predict(input1):
