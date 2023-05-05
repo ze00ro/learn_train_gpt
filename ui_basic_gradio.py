@@ -8,21 +8,19 @@ model_args, = prepare_args()
 
 model_id = model_args.model_name_or_path
 
-# model = GPT2LMHeadModel.from_pretrained(name, pad_token_id=tokenizer.eos_token_id)
-
 tokenizer = BertTokenizer.from_pretrained(model_id)
-model = GPT2LMHeadModel.from_pretrained(model_id)
+model = GPT2LMHeadModel.from_pretrained(model_id, pad_token_id=tokenizer.eos_token_id).cuda()
 
 
 def predict(input1):
     text_generator = TextGenerationPipeline(model=model, tokenizer=tokenizer)
-    res = text_generator(input1, max_length=100, do_sample=True)
-    return res
+    res = text_generator(input1, max_length=400, do_sample=True)
+    return res[0]['generated_text']
 
 
 examples = [
-    ["太师椅"],
-    ["好的空调"],
+    ["电动牙刷推荐"],
+    ["电取暖器推荐"],
 ]
 
 demo = gr.Interface(fn=predict,
