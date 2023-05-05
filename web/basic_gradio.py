@@ -1,19 +1,23 @@
 from transformers import GPT2LMHeadModel, BertTokenizer
+from transformers import TextGenerationPipeline
 import gradio as gr
 
-# model = GPT2LMHeadModel.from_pretrained(name, pad_token_id=tokenizer.eos_token_id)
+from util.common import prepare_args
 
-model_id = "/Volumes/backup/models/gpt2-chinese-cluecorpussmall"
+model_args, = prepare_args()
+
+model_id = model_args.model_name_or_path
+
+# model = GPT2LMHeadModel.from_pretrained(name, pad_token_id=tokenizer.eos_token_id)
 
 tokenizer = BertTokenizer.from_pretrained(model_id)
 model = GPT2LMHeadModel.from_pretrained(model_id)
 
 
-def predict(inp):
-    input_ids = tokenizer.encode(inp, return_tensors='pt')
-    beam_output = model.generate(input_ids, max_length=100, num_beams=5, no_repeat_ngram_size=2, early_stopping=True)
-    output = tokenizer.decode(beam_output[0], skip_special_tokens=True, clean_up_tokenization_spaces=True)
-    return ".".join(output.split(".")[:-1]) + "."
+def predict(input):
+    text_generator = TextGenerationPipeline(model=model, tokenizer=tokenizer)
+    res = text_generator(input, max_length=100, do_sample=True)
+    return res
 
 
 demo = gr.Interface(fn=predict,
