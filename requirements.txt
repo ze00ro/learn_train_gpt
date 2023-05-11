@@ -1,5 +1,5 @@
-transformers
 datasets
+evaluate
 pandas
-
-gradio
+torch
+git+https://github.com/huggingface/transformers.git
