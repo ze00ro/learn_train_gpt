@@ -1,3 +1,6 @@
+accelerate
+scikit-learn
+pytest
 datasets
 evaluate
 pandas

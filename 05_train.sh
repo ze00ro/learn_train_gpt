@@ -1,6 +1,6 @@
 export TRAIN_FILE=05_data/train.txt
 export TEST_FILE=05_data/test.txt
-export GPT2_MODEL_PATH=/Volumes/backup/models/gpt2-chinese-cluecorpussmall
+export GPT2_MODEL_PATH=/llm/models/gpt2_chinese_cluecorpussmall
 
 python transformers/examples/pytorch/language-modeling/run_clm.py \
     --output_dir model_output_clm/ \
@@ -11,11 +11,15 @@ python transformers/examples/pytorch/language-modeling/run_clm.py \
     --do_eval \
     --keep_linebreaks True \
     --validation_file=$TEST_FILE \
-    --per_device_train_batch_size=1 \
-    --per_device_eval_batch_size=1 \
+    --per_device_train_batch_size=4 \
+    --per_device_eval_batch_size=4 \
+    --gradient_accumulation_steps=8 \
+    --gradient_checkpointing=True \
+    --low_cpu_mem_usage=True \
+    --save_strategy=epoch \
     --save_total_limit=5 \
-    --learning_rate=5e-5 \
-    --num_train_epochs=5 \
+    --learning_rate=1e-3 \
+    --num_train_epochs=10 \
     --evaluation_strategy=epoch \
     --fp16 \
     --overwrite_output_dir

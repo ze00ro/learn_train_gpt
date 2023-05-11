@@ -30,20 +30,20 @@ def predict_by_model(input1):
     )
 
     inputs = tokenizer(input1, return_tensors="pt")
-    outputs = model.generate(**inputs, generation_config=generation_config)
+    outputs = model.generate(**inputs, generation_config=generation_config, early_stopping=True)
     print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 
 
 examples = [
-    ["电动牙刷推荐"],
-    ["电取暖器推荐"],
+    ["电动牙刷有什么好的"],
+    ["2023年燃气热水器怎么选"],
 ]
 
 demo = gr.Interface(fn=predict_by_pipe,
                     inputs="text",
                     outputs="text",
                     title="GPT-2 训练演示",
-                    description="使用 GPT-2 模型进行文本生成",
+                    description="使用 GPT-2 模型进行文本生成 4batch, 6epoch, 1e-3",
                     examples=examples,
                     )
 
