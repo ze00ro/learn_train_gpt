@@ -14,9 +14,9 @@ model = GPT2LMHeadModel.from_pretrained(model_id).cuda()
 print(tokenizer)
 
 
-def predict_by_pipe(input1):
+def predict_by_pipe(input1, temperature):
     text_generator = TextGenerationPipeline(model=model, tokenizer=tokenizer, device=0)
-    res = text_generator(input1, max_length=400, do_sample=True)
+    res = text_generator(input1, max_length=400, do_sample=True, temperature=temperature)
     return res[0]['generated_text']
 
 
@@ -39,8 +39,9 @@ examples = [
     ["2023年燃气热水器怎么选"],
 ]
 
+
 demo = gr.Interface(fn=predict_by_pipe,
-                    inputs="text",
+                    inputs=["text", gr.Slider(0, 1, step=0.1)],
                     outputs="text",
                     title="GPT-2 训练演示",
                     description="使用 GPT-2 模型进行文本生成 4batch, 6epoch, 1e-3",
