@@ -19,7 +19,7 @@ python ./run_clm.py \
     --learning_rate=1e-3 \
     --num_train_epochs=10 \
     --evaluation_strategy=steps \
-    --eval_steps=10 \
+    --eval_steps=80 \
     --fp16 \
     --overwrite_output_dir
 

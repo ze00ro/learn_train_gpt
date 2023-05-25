@@ -39,9 +39,8 @@ examples = [
     ["2023年燃气热水器怎么选"],
 ]
 
-
 demo = gr.Interface(fn=predict_by_pipe,
-                    inputs=["text", gr.Slider(0, 1, step=0.1)],
+                    inputs=["text", gr.Slider(0.0, 1.0, step=0.1, value=0.2)],
                     outputs="text",
                     title="GPT-2 训练演示",
                     description="使用 GPT-2 模型进行文本生成 4batch, 6epoch, 1e-3",
